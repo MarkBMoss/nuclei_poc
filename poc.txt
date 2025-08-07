@@ -4846,6 +4846,7 @@
 ./poc/auth/jupyterhub-default-login_2.yaml
 ./poc/auth/jupyterhub-default-login_3.yaml
 ./poc/auth/jupyterhub-default-login_4.yaml
+./poc/auth/jwt-algorithm-confusion.yaml
 ./poc/auth/jwt-auth-095adf04b2058ec616033a7aa2b24d07.yaml
 ./poc/auth/jwt-auth.yaml
 ./poc/auth/jwt-auth_1.yaml
@@ -111199,6 +111200,7 @@
 ./poc/cve/CVE-2025-53770_2.yaml
 ./poc/cve/CVE-2025-53770_3.yaml
 ./poc/cve/CVE-2025-53770_4.yaml
+./poc/cve/CVE-2025-53770_5.yaml
 ./poc/cve/CVE-2025-53833.yaml
 ./poc/cve/CVE-2025-5392-b0b9e8c8679e2c78fbf559c83f498138.yaml
 ./poc/cve/CVE-2025-5393-ff0bdcb479cbc8592fd3b265835b0d1a.yaml
@@ -120992,6 +120994,7 @@
 ./poc/detect/conpot-siemens-honeypot-detect_1_1.yaml
 ./poc/detect/conpot-siemens-honeypot-detection.yaml
 ./poc/detect/conpot-siemens-honeypot-detection_1.yaml
+./poc/detect/container-escape-detection.yaml
 ./poc/detect/contentkeeper-detect-1201.yaml
 ./poc/detect/contentkeeper-detect-1203.yaml
 ./poc/detect/contentkeeper-detect.yaml
@@ -121292,6 +121295,7 @@
 ./poc/detect/dnt-policy-detect.yaml
 ./poc/detect/dnt-policy-detect_1.yaml
 ./poc/detect/dnt-policy-detect_2.yaml
+./poc/detect/dnt-policy-detect_3.yaml
 ./poc/detect/docker-api-detection.yaml
 ./poc/detect/docker-registry-browser-detect.yaml
 ./poc/detect/dolibarr-detect-7069.yaml
@@ -125848,6 +125852,7 @@
 ./poc/exposed/kiwi-information-disclosure.yaml
 ./poc/exposed/kiwi-information-disclosure_1.yaml
 ./poc/exposed/kronos-wsld-exposure.yaml
+./poc/exposed/kubernetes-api-exposure.yaml
 ./poc/exposed/kubernetes-etcd-keys-exposure.yaml
 ./poc/exposed/kubernetes-kustomization-disclosure-8532.yaml
 ./poc/exposed/kubernetes-kustomization-disclosure-8533.yaml
@@ -128563,6 +128568,7 @@
 ./poc/http/http-verb-tampering.yaml
 ./poc/http/http-verb-tampering_1.yaml
 ./poc/http/http-xframe-header.yaml
+./poc/http/http2-request-smuggling.yaml
 ./poc/http/http_server.yaml
 ./poc/http/httpbin-detection.yaml
 ./poc/http/httpbin-detection_1.yaml
@@ -167058,6 +167064,7 @@
 ./poc/other/mdx.yaml
 ./poc/other/mechat-irc.yaml
 ./poc/other/mechat-online-service.yaml
+./poc/other/meddream-dicom-viewer-panel.yaml
 ./poc/other/media-alt-renamer-a0183f0e611140621fb2e0426ced2243.yaml
 ./poc/other/media-alt-renamer.yaml
 ./poc/other/media-alt-renamer_1.yaml
@@ -171442,6 +171449,7 @@
 ./poc/other/openshift-installer-panel_4.yaml
 ./poc/other/openshift-installer-panel_5.yaml
 ./poc/other/openshift_origin.yaml
+./poc/other/opensign-panel.yaml
 ./poc/other/opensis-installer.yaml
 ./poc/other/opensis-installer_1.yaml
 ./poc/other/opensis-installer_2.yaml
@@ -184361,6 +184369,7 @@
 ./poc/other/surveys-ca939e995ace459d20f876c0cdc01a41.yaml
 ./poc/other/surveys.yaml
 ./poc/other/surveys_1.yaml
+./poc/other/suse-manager-panel.yaml
 ./poc/other/suyaxing-campus-management-system.yaml
 ./poc/other/sv-cpt-mc310_firmware.yaml
 ./poc/other/sv-provenexpert-fcf83d7a3c85a390f649070d5d04b65e.yaml
