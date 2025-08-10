@@ -1,0 +1,35 @@
+id: bitwarden-phish
+
+info:
+  name: bitwarden phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A bitwarden phishing website was detected
+  reference:
+    - https://bitwarden.com
+  metadata:
+    max-request: 1
+  tags: phishing,bitwarden,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'The password manager trusted by millions | Bitwarden'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"bitwarden.com")'
+# digest: 4a0a00473045022100ba595a773527d0d5e5ebaf3700af62d6fe59fe99514afe0ecaf46d0d1be4ded40220077e67d48d0816269fe868aaf6bbc5cb9fe2201dd2412acb0d36d18940fd3acf:922c64590222798bb761d5b6d8e72950
