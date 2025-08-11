@@ -47781,6 +47781,7 @@
 ./poc/cve/CVE-2022-1388-3_1.yaml
 ./poc/cve/CVE-2022-1388.yaml
 ./poc/cve/CVE-2022-1388_1.yaml
+./poc/cve/CVE-2022-1388_10.yaml
 ./poc/cve/CVE-2022-1388_2.yaml
 ./poc/cve/CVE-2022-1388_3.yaml
 ./poc/cve/CVE-2022-1388_4.yaml
