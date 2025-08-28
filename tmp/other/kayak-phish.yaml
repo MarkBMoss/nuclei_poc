@@ -1,0 +1,35 @@
+id: kayak-phish
+
+info:
+  name: kayak phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A kayak phishing website was detected
+  reference:
+    - https://kayak.co.uk
+  metadata:
+    max-request: 1
+  tags: phishing,kayak,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Search Flights, Hotels &amp; Car Hire | KAYAK'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"kayak.co.uk")'
+# digest: 490a0046304402202f3c6085d46e252e38599f9094040e667d61c220f2dde0cb42e16477ddb13a6b02201513f70e5dbc16a985084fa68ab12ed089506ca561719b78310ed5d1f2d24a54:922c64590222798bb761d5b6d8e72950

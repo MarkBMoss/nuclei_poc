@@ -1,0 +1,35 @@
+id: nexus-panel
+
+info:
+  name: Nexus Login Panel - Detect
+  author: righettod
+  severity: info
+  description: |
+    Nexus login panel was detected.
+  reference:
+    - https://www.sonatype.com/products/sonatype-nexus-repository
+  metadata:
+    verified: true
+    max-request: 1
+    shodan-query: http.title:"Sonatype Nexus Repository"
+  tags: panel,nexus,login,detect
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains_any(to_lower(body), "<title>sonatype nexus repository", "content=\"sonatype nexus repository", "nexus-coreui-bundle")'
+        condition: and
+
+    extractors:
+      - type: regex
+        part: body
+        group: 1
+        regex:
+          - '_v=([0-9\.\-]+)'
+# digest: 4a0a004730450221008022ed0a340640fd1e3abdb70b2232cda2366c139d08c55131874e949821c3df02205facf0971ea635f254d0b3a6caecf64cc596fca9f17a111ff25ff70d8b544e86:922c64590222798bb761d5b6d8e72950

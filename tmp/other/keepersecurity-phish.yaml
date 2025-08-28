@@ -1,0 +1,35 @@
+id: keepersecurity-phish
+
+info:
+  name: keepersecurity phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A keepersecurity phishing website was detected
+  reference:
+    - https://keepersecurity.com
+  metadata:
+    max-request: 1
+  tags: phishing,keepersecurity,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Password and Secrets Management - Keeper Security'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"keepersecurity.com")'
+# digest: 4a0a00473045022100c5ba787939a9162730fa68adac0d6cf848837fbaaae7c18f5a3c24b2a33858e602204a82f6c4ab5e4a05af3e4949cde93eb837103fc5b8c47df7e6e9b15e7768253a:922c64590222798bb761d5b6d8e72950

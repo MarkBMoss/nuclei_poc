@@ -1,0 +1,35 @@
+id: vodafone-phish
+
+info:
+  name: vodafone phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A vodafone phishing website was detected
+  reference:
+    - https://vodafone.co.uk
+  metadata:
+    max-request: 1
+  tags: phishing,vodafone,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Vodafone &ndash; Our Best Ever Network'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"vodafone.co.uk")'
+# digest: 490a0046304402206496b3df9f116cda091975c2903a24e65dba9680c1926512fcb0dc79bc8963260220508314e7a76686acc21882f997d888aa6ee345aed2e6b742cdb3288da7eb5836:922c64590222798bb761d5b6d8e72950

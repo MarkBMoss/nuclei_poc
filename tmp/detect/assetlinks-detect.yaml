@@ -1,0 +1,29 @@
+id: assetlinks-detect
+
+info:
+  name: Android Asset Links Configuration - Detect
+  author: rxerium
+  severity: info
+  description: |
+    The .well-known/assetlinks.json file was found on the target server. This file is used by Android applications to establish verified app-to-web domain associations through the Digital Asset Links protocol.
+  reference:
+    - https://developer.android.com/training/app-links/verify-android-applinks
+  metadata:
+    verified: true
+    max-request: 1
+    shodan-query: html:"assetlinks.json"
+  tags: misc,assetlinks,compliance,assetlinks
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.well-known/assetlinks.json"
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code == 200"
+          - "contains(body, 'android_app')"
+          - "contains(content_type, 'application/json')"
+        condition: and
+# digest: 490a004630440220273a748ee65367b85ba3b62ef0b9cae88b045de568e1ecf498e400170536ef4802205e53b931c910f5dbc582d4ae3a06a0e7ff8d0b3b44ae8b085471e3e672e8f588:922c64590222798bb761d5b6d8e72950

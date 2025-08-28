@@ -1,0 +1,28 @@
+id: sekolahku-cms-detect
+
+info:
+  name: Sekolahku CMS - Detect
+  author: nblirwn
+  severity: info
+  description: |
+    Sekolahku CMS is a free, open-source, and easy-to-use content management system (CMS) for schools and educational institutions. It is designed to help schools manage their websites, manage student information, and manage school activities.
+  reference:
+    - https://sekolahku.web.id/
+  metadata:
+    max-request: 1
+    shodan-query: html:"sekolahku.web"
+  tags: tech,sekolahku,cms
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - 'sekolahku.web.id'
+          - 'CMS Sekolahku'
+        condition: or
+# digest: 4b0a00483046022100972a773e794582236fde2fd200af28dad66b4b63e4f213501256d431df061d0d022100f2e8c588f6877979156a787c7a80f3e3107d2aade5aafcecb522b731e1fec8e7:922c64590222798bb761d5b6d8e72950
