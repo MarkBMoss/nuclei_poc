@@ -11,11 +11,10 @@ info:
     cvss-score: 10.0
     cwe-id: CWE-77
   metadata:
-    max-request: 1
     shodan-query: title:"icewarp"
   tags: icewarp,rce
 
-http:
+requests:
   - raw:
       - |
         POST /webmail/basic/ HTTP/1.1

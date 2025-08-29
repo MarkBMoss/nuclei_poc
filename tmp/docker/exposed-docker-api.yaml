@@ -4,15 +4,15 @@ info:
   name: Exposed Docker API
   author: furkansenan,dwisiswant0
   severity: info
-  tags: docker,unauth,devops
+  tags: docker,generic
   metadata:
     max-request: 2
 
 http:
   - method: GET
     path:
-      - "http://{{Hostname}}/version"
-      - "http://{{Hostname}}/v1.24/version"
+      - "{{BaseURL}}/version"
+      - "{{BaseURL}}/v1.24/version"
 
     matchers-condition: and
     matchers:
@@ -20,12 +20,14 @@ http:
         words:
           - "application/json"
         part: header
+        
       - type: word
+        part: body
         words:
           - "KernelVersion"
           - "BuildTime"
         condition: and
-        part: body
+        
       - type: status
         status:
           - 200

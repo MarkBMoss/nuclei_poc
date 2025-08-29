@@ -6,7 +6,7 @@ info:
   severity: medium
   metadata:
     max-request: 1
-  tags: debug,laravel,misconfig
+  tags: debug,laravel,php
 
 http:
   - method: GET
