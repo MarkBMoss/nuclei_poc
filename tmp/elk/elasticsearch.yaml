@@ -4,11 +4,11 @@ info:
   name: ElasticSearch Information Disclosure
   author: Shine,c-sh0,geeknik
   severity: low
+  reference: https://medium.com/@ghassemiN/how-to-find-open-elasticsearch-databases-using-shodan-fb9314af604a
   metadata:
     verified: true
-    max-request: 4
     shodan-query: "ElasticSearch"
-  tags: elastic,unauth,elasticsearch,misconfig
+  tags: cloud,generic,elasticsearch
 
 http:
   - method: GET
@@ -17,18 +17,25 @@ http:
       - '{{BaseURL}}/_cat/indices?v'
       - '{{BaseURL}}/_all/_search'
       - "{{BaseURL}}/_cluster/health?pretty"
+      - '{{Hostname}}/?pretty'
+      - '{{Hostname}}/_cat/indices?v'
+      - '{{Hostname}}/_all/_search'
+      - "{{Hostname}}/_cluster/health?pretty"
 
     stop-at-first-match: true
-
     matchers-condition: and
     matchers:
       - type: word
+        part: body
         words:
           - '"took":'
           - '"number" :'
+          - 'unique_id_filter:'
           - '"number_of_nodes"'
+          - 'cluster_name:'
+          - 'store.size'
         condition: or
-
+        
       - type: word
         part: header
         words:
@@ -47,5 +54,3 @@ http:
         group: 1
         regex:
           - '"number"\s:\s"([0-9.]+)"'
-
-# digest: 4a0a004730450220041bb329eab38b5d572d68f256c675ed853783e1b90e4eaed6a9f9295f9b8360022100eb0eb861974fdf8584bbc94c323c2a72a68b99a9d3986633b65482ec863535d1:922c64590222798bb761d5b6d8e72950

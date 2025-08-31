@@ -9,15 +9,16 @@ info:
   metadata:
     plugin_namespace: so-widgets-bundle
     wpscan: https://wpscan.com/plugin/so-widgets-bundle
-  tags: tech,wordpress,wp-plugin,top-200
+  tags: tech,wordpress,wp-plugin,top-100,top-200
 
-http:
+requests:
   - method: GET
+
     path:
       - "{{BaseURL}}/wp-content/plugins/so-widgets-bundle/readme.txt"
 
     payloads:
-      last_version: helpers/wordpress/plugins/so-widgets-bundle.txt
+      last_version: ../../../helpers/wordpress/plugins/so-widgets-bundle.txt
 
     extractors:
       - type: regex
@@ -46,4 +47,3 @@ http:
         part: body
         regex:
           - '(?i)Stable.tag:\s?([\w.]+)'
-# digest: 4a0a0047304502207685f91f30d7fc37a31a9f07612550f305dc175d6dda3e3df08b9a190f86874a022100a54f9e40a2ed4c181e72904e3f4313b6c80c5011ccb1c36f374c6cfe78c52ae9:922c64590222798bb761d5b6d8e72950

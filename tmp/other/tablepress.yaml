@@ -1,7 +1,7 @@
 id: wordpress-tablepress
 
 info:
-  name: TablePress – Tables in WordPress made easy Detection
+  name: TablePress Detection
   author: ricardomaia
   severity: info
   reference:
@@ -11,13 +11,14 @@ info:
     wpscan: https://wpscan.com/plugin/tablepress
   tags: tech,wordpress,wp-plugin,top-100,top-200
 
-http:
+requests:
   - method: GET
+
     path:
       - "{{BaseURL}}/wp-content/plugins/tablepress/readme.txt"
 
     payloads:
-      last_version: helpers/wordpress/plugins/tablepress.txt
+      last_version: ../../../helpers/wordpress/plugins/tablepress.txt
 
     extractors:
       - type: regex
@@ -46,4 +47,3 @@ http:
         part: body
         regex:
           - '(?i)Stable.tag:\s?([\w.]+)'
-# digest: 4a0a004730450221009e0c24f12359c61615f77fc87231bd0be52b6bdbe265ad6ab73f211cfab9303b022011f64014d0facf917d34e294e9e86acbcc21eb5fafa716280ded6a8326de4ee6:922c64590222798bb761d5b6d8e72950
