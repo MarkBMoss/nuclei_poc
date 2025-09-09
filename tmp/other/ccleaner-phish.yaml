@@ -1,0 +1,35 @@
+id: ccleaner-phish
+
+info:
+  name: ccleaner phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A ccleaner phishing website was detected
+  reference:
+    - https://ccleaner.com
+  metadata:
+    max-request: 1
+  tags: phishing,ccleaner,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'CCleaner Makes Your Computer Faster & More Secure | Official Website'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"ccleaner.com")'
+# digest: 490a0046304402203945d05a0efc51bf3296f600ab739ce274b39c1ea064373a3ae22cf1557165f9022050394efea1ded2445ecda5d1822447841eb3ede56b63701f1f6135d049a549fe:922c64590222798bb761d5b6d8e72950

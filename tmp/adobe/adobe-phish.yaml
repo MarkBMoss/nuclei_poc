@@ -1,0 +1,35 @@
+id: adobe-phish
+
+info:
+  name: adobe phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    An adobe phishing website was detected
+  reference:
+    - https://adobe.com
+  metadata:
+    max-request: 1
+  tags: phishing,adobe,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Adobe: Creative, marketing and document management solutions'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"adobe.com")'
+# digest: 4a0a00473045022072a1b951fb0055dd130ba732156f9271d75a9e79f7a00a5dd42c7fa653a22ba2022100fdcccd110b57d80cfdfe96de5dd1ac7011d98306d93b78e654b3153060bb05fb:922c64590222798bb761d5b6d8e72950

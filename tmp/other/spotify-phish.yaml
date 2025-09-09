@@ -1,0 +1,35 @@
+id: spotify-phish
+
+info:
+  name: spotify phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A spotify phishing website was detected
+  reference:
+    - https://spotify.com
+  metadata:
+    max-request: 1
+  tags: phishing,spotify,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Spotify - Web Player: Music for everyone'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"spotify.com")'
+# digest: 4a0a0047304502205aa84bfe89d8afb68051a0f5061937049af76aad9d84a651e056a72de546fe23022100f6688a90f322dffbe8d6e5de06512d8ac813ae28e23e359bbe1814b561e307cf:922c64590222798bb761d5b6d8e72950

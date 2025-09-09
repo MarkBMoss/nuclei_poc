@@ -1,0 +1,35 @@
+id: yahoo-phish
+
+info:
+  name: Yahoo phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A yahoo phishing website was detected
+  reference:
+    - https://yahoo.com
+  metadata:
+    max-request: 1
+  tags: phishing,yahoo,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Best-in-class Yahoo Mail, breaking local, national and global news, finance, sport, music, films and more. You get more out of the web, you get more out of life.'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"yahoo.com")'
+# digest: 4b0a0048304602210094a326650d32d0d7a333aaeab8fb91ae268b7c722b439804b7423ea866c87756022100f1789653e06698c821c26bb322efe20bf549fae59df19aa409277adf46159be8:922c64590222798bb761d5b6d8e72950

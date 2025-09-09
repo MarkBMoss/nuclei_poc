@@ -1,0 +1,31 @@
+id: dnt-policy-detect
+
+info:
+  name: DNT Policy Declaration
+  author: rxerium
+  severity: info
+  description: |
+    Detects a Do not Track policy.
+  reference:
+    - https://www.freeprivacypolicy.com/blog/privacy-policy-do-not-track-dnt/
+  tags: privacy,dnt,detect,compliance,policy
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/.well-known/dnt-policy.txt"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Do not track"
+          - "Policy"
+          - "Compliance"
+        condition: and
+
+      - type: status
+        status:
+          - 200
+# digest: 490a004630440220085621952aa8493f44592e5bde42d1415a6c61e24a372c4c83ebff01936fa0190220305644311e9a8d55ef26f69fdd94836983b8e7adc4a96608016bb32529f006a2:922c64590222798bb761d5b6d8e72950
