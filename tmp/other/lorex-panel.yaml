@@ -31,4 +31,4 @@ http:
           - 'contains_all(tolower(body), "<title>web service</title>", "lorex")'
           - 'contains_any(body, "/LOREX_webplugin", "lorex_msg")'
         condition: or
-# digest: 4a0a00473045022100a0f2817949408feacaf8a8b79360ce96bc8f851c71155e95a7f700f182b1efbd02200d23f85bb2e2576aa92b1753b0283810fd6134aa12760ecb9fed6828eb6a8453:922c64590222798bb761d5b6d8e72950
+# digest: 4b0a00483046022100a8d698ab4a2fd6cbc6308886c57815a3355352e6b6341d59e2da8848ceccf035022100ae599c170fb9987320a72c7730871d34b0baa1dbc46cce9c209be482367539ce:922c64590222798bb761d5b6d8e72950

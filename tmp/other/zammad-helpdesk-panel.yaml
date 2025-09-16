@@ -29,4 +29,4 @@ http:
           - 'status_code == 200'
           - 'contains_any(to_lower(body), "<title>zammad helpdesk</title>", "zammad_form_script")'
         condition: and
-# digest: 4b0a00483046022100e79175ec0664595a2622e7f3bacd2b907bbc46bd4d565849aa6105889f51b029022100e6c63e9c8894ea44192e2e95b4abe283af5327c04f810a69f3e6cb17b0f42656:922c64590222798bb761d5b6d8e72950
+# digest: 4a0a00473045022100aea5cc374c32c3785c44f01af407b3ea764e375b150a544bda29d37a4e912baf0220070a3efc06d0819eae27a74bf9f5f08cdff9c835c7ca28e4cd16f6c63bee56fc:922c64590222798bb761d5b6d8e72950

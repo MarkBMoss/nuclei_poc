@@ -1,0 +1,35 @@
+id: keepass-phish
+
+info:
+  name: keepass phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A keepass phishing website was detected
+  reference:
+    - https://keepass.info
+  metadata:
+    max-request: 1
+  tags: phishing,keepass,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'KeePass is a free open source password manager. Passwords can be stored in an encrypted database, which can be unlocked with one master key.'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"keepass.info")'
+# digest: 4a0a00473045022007b3593e10e47c2ae37d2f618b9e651c7350059813662f0a54442cdaf8272520022100980654e9812a4030920fe038da1555ae38ad560370da5af0aa7138247fdca829:922c64590222798bb761d5b6d8e72950

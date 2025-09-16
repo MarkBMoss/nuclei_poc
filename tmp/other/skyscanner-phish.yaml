@@ -1,0 +1,35 @@
+id: skyscanner-phish
+
+info:
+  name: skyscanner phishing Detection
+  author: rxerium
+  severity: info
+  description: |
+    A skyscanner phishing website was detected
+  reference:
+    - https://skyscanner.net
+  metadata:
+    max-request: 1
+  tags: phishing,skyscanner,osint
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+
+    host-redirects: true
+    max-redirects: 2
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Compare Cheap Flights &amp; Book Airline Tickets to Everywhere | Skyscanner'
+
+      - type: status
+        status:
+          - 200
+
+      - type: dsl
+        dsl:
+          - '!contains(host,"skyscanner.net")'
+# digest: 490a00463044022001a1bbb79470a510882c3ed665e5463fb1ec48bb731f4b28006d731818ba089c02204665e10d253a0e117f15f750b9b03ad184c5748f8bc2ed6f73b0a5b75667dbed:922c64590222798bb761d5b6d8e72950
