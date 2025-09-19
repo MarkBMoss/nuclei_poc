@@ -1,0 +1,23 @@
+id: blind-ssrf-187
+
+info:
+  name: Blind SSRF
+  author: reewardius
+  severity: high
+  tags: ssrf
+  
+http:
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        X-Forwarded-For:
+        X-Forwarded-For: {{interactsh-url}}
+        
+    unsafe: true
+    matchers:
+      - type: word
+        part: interactsh_protocol
+        words:
+          - "dns"
+          - "http"
