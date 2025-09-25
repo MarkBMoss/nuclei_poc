@@ -7,6 +7,7 @@ info:
   description: Grafana 8.x is vulnerable to local file inclusion.
   reference:
     - https://grafana.com/blog/2021/12/08/an-update-on-0day-cve-2021-43798-grafana-directory-traversal/
+    - https://github.com/pedrohavay/exploit-grafana-CVE-2021-43798/tree/main
     - https://nosec.org/home/detail/4914.html
     - https://github.com/jas502n/Grafana-VulnTips
     - https://github.com/grafana/grafana/security/advisories/GHSA-8pjx-jj86-j47p
@@ -18,9 +19,8 @@ info:
     cve-id: CVE-2021-43798
     cwe-id: CWE-22
   metadata:
-    max-request: 325
     shodan-query: title:"Grafana"
-  tags: grafana,lfi
+  tags: cloud,grafana
 
 http:
   - method: GET
