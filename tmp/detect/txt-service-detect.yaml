@@ -25,6 +25,11 @@ dns:
           - "keybase-site-verification"
 
       - type: word
+        name: "salesloft-drift"
+        words:
+          - "drift-domain-verification"
+
+      - type: word
         name: "proton-mail"
         words:
           - "protonmail-verification"
@@ -218,4 +223,4 @@ dns:
         name: "whimsical"
         words:
           - "whimsical"
-# digest: 4a0a0047304502203751050093d0e898f24ccb5d164ca8dc292fe98a70025fa027edb6ba8cf8bd29022100dc56d8174569a020a70e76946ab71bb3beba85701e47762946d490abdd0a72f0:922c64590222798bb761d5b6d8e72950
+# digest: 4b0a00483046022100d129791850b4948b906bf11be5f394bf2ead2ae887e012a7261642e2620a6ce1022100ce3f80b9d35d55fc80705c00ee43873c88af2d589dd116c3149e45df05760c3a:922c64590222798bb761d5b6d8e72950
