@@ -40,4 +40,4 @@ code:
       - type: dsl
         dsl:
           - '"kube-apiserver is configured with " + argument + ". Review and remove if unnecessary."'
-# digest: 4b0a00483046022100bbfd4b4e0a7fbf2b752bcc1f1f83482251604382528e88bf9c71ef1d38f973ca022100d7ff2867f5cbe81c2cd65d1c7c72ea9f07a8d9a784ea2c9761ffef62c36c0565:922c64590222798bb761d5b6d8e72950
+# digest: 4b0a00483046022100b9d162378388e2014093be38132fd68ec31cdc238cacc3f19fdfb5279cbacad8022100cd17b3ad7ee3eec302fb0a985d08ff56c165b37c5141a90e2ebcf0916e176e91:922c64590222798bb761d5b6d8e72950
