@@ -6,11 +6,10 @@ info:
   severity: medium
   tags: redirect,dast
 
-http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
 
     payloads:
       redirect:
@@ -20,142 +19,26 @@ http:
       - part: query
         mode: single
         keys:
-          - AuthState
-          - URL
-          - _url
-          - callback
-          - checkout
-          - checkout_url
-          - content
-          - continue
-          - continueTo
-          - counturl
-          - data
-          - dest
-          - dest_url
-          - destination
-          - dir
-          - document
-          - domain
-          - done
-          - download
-          - feed
-          - file
-          - file_name
-          - file_url
-          - folder
-          - folder_url
-          - forward
-          - from_url
-          - go
-          - goto
-          - host
-          - html
-          - http
-          - https
-          - image
-          - image_src
-          - image_url
-          - imageurl
-          - img
-          - img_url
-          - include
-          - langTo
-          - load_file
-          - load_url
-          - login_to
-          - login_url
-          - logout
-          - media
-          - navigation
           - next
-          - next_page
-          - open
-          - out
-          - page
-          - page_url
-          - pageurl
-          - path
-          - picture
-          - port
-          - proxy
-          - r
-          - r2
+          - url
+          - target
+          - rurl
+          - dest
+          - destination
           - redir
-          - redirect
-          - redirectUri
-          - redirectUrl
-          - redirect_to
           - redirect_uri
           - redirect_url
-          - reference
-          - referrer
-          - req
-          - request
-          - ret
-          - retUrl
+          - redirect
+          - view
+          - to
+          - image_url
+          - go
           - return
           - returnTo
-          - return_path
           - return_to
-          - return_url
-          - rt
-          - rurl
-          - show
-          - site
-          - source
-          - src
-          - target
-          - to
-          - u
-          - uri
-          - url
-          - val
-          - validate
-          - view
-          - window
-          - back
-          - cgi
-          - follow
-          - home
-          - jump
-          - link
-          - location
-          - menu
-          - move
-          - nav
-          - orig_url
-          - out_url
-          - query
-          - auth
-          - callback_url
-          - confirm_url
-          - destination_url
-          - domain_url
-          - entry
-          - exit
-          - forward_url
-          - go_to
-          - goto_url
-          - home_url
-          - image_link
-          - load
-          - logout_url
-          - nav_to
-          - origin
-          - page_link
-          - redirect_link
-          - ref
-          - referrer_url
-          - return_link
-          - return_to_url
-          - source_url
-          - target_url
-          - to_url
-          - validate_url
-          - DirectTo
-          - relay
-          
+          - checkout_url
+          - continue
+          - return_path
         fuzz:
           - "https://{{redirect}}"
 
