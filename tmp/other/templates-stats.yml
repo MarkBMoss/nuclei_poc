@@ -1,50 +1,40 @@
 name: 🗒 Templates Stats
 
 on:
-  schedule:
-    - cron: '25 6 * * *'
-    
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+    tags:
+      - '*'
   workflow_dispatch:
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    if: github.repository == 'projectdiscovery/nuclei-templates'
     steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python 3.10
-      uses: actions/setup-python@v3
-      with:
-        python-version: "3.10"
-        
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    
-    - name: Parse readme
-      run: |
-        python /home/runner/work/nuclei-wordfence-cve/nuclei-wordfence-cve/scripts/parse.readme.py
-    
-    - name: Get statistical changes
-      id: stats
-      run: git status -s | wc -l | xargs -I {} echo CHANGES={} >> $GITHUB_OUTPUT
-    
-    - name: Commit files
-      if: steps.stats.outputs.CHANGES > 0
-      run: |
-        git add README.md
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git commit -m "Auto Updated README statistics [$(date)] :robot:" -a
-
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v5
+        with: 
+          fetch-depth: 0
+      - uses: projectdiscovery/actions/templates/stats@v1
+        with:
+          path: '${{ github.workspace }}'
+          output: 'TEMPLATES-STATS.md'
+      - uses: projectdiscovery/actions/templates/stats@v1
+        with:
+          path: '${{ github.workspace }}'
+          output: 'TEMPLATES-STATS.json'
+          args: '-json'
+      - uses: projectdiscovery/actions/templates/stats@v1
+        with:
+          path: '${{ github.workspace }}'
+          output: 'TOP-10.md'
+          args: '-top 10'
+      - uses: projectdiscovery/actions/setup/git@v1
+      - uses: projectdiscovery/actions/commit@v1
+        with:
+          files: |
+            TEMPLATES-STATS.*
+            TOP-10.md
+          message: 'chore: generate templates stats 🤖'
+      - uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
