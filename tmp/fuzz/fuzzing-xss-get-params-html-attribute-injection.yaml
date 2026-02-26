@@ -2,16 +2,14 @@ id: xss-fuzz-html-attribute-injection
 
 info:
   name: Reflected XSS Checks via HTML attribute injections
-  author: quas,reewardius
+  author: quas
   severity: medium
   description: Fuzzes all query parameters for various reflected XSS vulnerabilities via HTML attribute injections.
-  tags: fuzzing-xss,fuzzing-req,dast
-  
+
 http:
   - method: GET
     path:
       - "{{BaseURL}}"
-      
     payloads:
       xss_payloads:
         - "\" x=\"y\" onmouseover=\"alert('xss')"
@@ -27,7 +25,6 @@ http:
         fuzz:
           - "{{url_encode(xss_payloads)}}"
           - "{{url_encode(url_encode(xss_payloads))}}"
-          
     matchers-condition: and
     matchers:
       - type: regex
@@ -39,16 +36,8 @@ http:
           - "(?i)<[^>]* x='y' onscrollsend='alert\\(1\\)'[^>]*>"
           - "(?i)<[^>]* x='y' onmouseover='alert\\(1\\)'[^>]*>"
           - "(?i)<[^>]* x='y' onfocus='alert\\(1\\)'[^>]*>"
-        
       - type: word
         part: header
         words:
           - "text/html"
-          
-      - type: word
-        part: body
-        words:
-          - "<title>Access Denied</title>"
-          - "You don't have permission to access"
-          - "Roundcube Webmail"
-        negative: true
+
