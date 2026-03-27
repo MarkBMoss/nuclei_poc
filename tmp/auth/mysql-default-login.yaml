@@ -10,7 +10,7 @@ info:
     verified: true
     max-request: 21
     shodan-query: "port:3306"
-  tags: js,mysql,default-login,network,fuzz,enum,vuln
+  tags: js,mysql,default-login,network,fuzz,enum
 
 javascript:
   - pre-condition: |
@@ -46,4 +46,4 @@ javascript:
           - "response == true"
           - "success == true"
         condition: and
-# digest: 4a0a0047304502202e60c03105cba531fe84fd491ad25fc7cc97070adc3a43865bad78e1ba274f7d022100f26af1d4d6e117ac8cbe021961ba09bf1c3c29c18ee17d8e4d378d0ac634fd24:922c64590222798bb761d5b6d8e72950
+# digest: 4a0a0047304502207adcfc24d9e3c74929abb00b45b3f42e30ade1edda76da0e9768605cf7e06228022100fc831a5449c73d201e21efe1a73471db66ad40c120568f7445334832ba8a16c8:922c64590222798bb761d5b6d8e72950
