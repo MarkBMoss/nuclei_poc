@@ -1,42 +1,34 @@
 id: iis-shortname
 
 info:
-  name: iis-shortname
+  name: IIS - Short Name Detect
   author: nodauf
   severity: info
-  description: When IIS uses an old .Net Framework it's possible to enumeration folder with the symbol ~.
-  reference:
-    - https://github.com/lijiejie/IIS_shortname_Scanner
-    - https://www.exploit-db.com/exploits/19525
-  tags: fuzz,edb
+  description: A website running via IIS on an old .net framework contains a get request vulnerability. Using the the tilde character "~" in the request, an attacker can locate short names of files and folders not normally visible.
 
-requests:
+http:
   - raw:
       - |
         GET /N0t4xist*~1*/a.aspx HTTP/1.1
         Host: {{Hostname}}
         Origin: {{BaseURL}}
         Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-
       - |
-        GET /*~1*/a.aspx' HTTP/1.1
+        GET /*~1*/a.aspx HTTP/1.1
         Host: {{Hostname}}
         Origin: {{BaseURL}}
         Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-
       - |
         OPTIONS /N0t4xist*~1*/a.aspx HTTP/1.1
         Host: {{Hostname}}
         Origin: {{BaseURL}}
         Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-
       - |
-        OPTIONS /*~1*/a.aspx' HTTP/1.1
+        OPTIONS /*~1*/a.aspx HTTP/1.1
         Host: {{Hostname}}
         Origin: {{BaseURL}}
         Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
 
-    req-condition: true
     matchers:
       - type: dsl
         dsl:
