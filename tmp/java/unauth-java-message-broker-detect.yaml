@@ -11,12 +11,13 @@ info:
     shodan-query: product:"Java Message Service"
   tags: network,tcp,jms,openmq,unauth
 
-network:
+tcp:
   - inputs:
       - data: "\n"
 
     host:
-      - "{{Host}}:7676"
+      - "{{Hostname}}"
+    port: 7676
 
     matchers:
       - type: word
@@ -29,4 +30,4 @@ network:
       - type: regex
         regex:
           - "imqbroker ([0-9.]+)"
-# digest: 4a0a00473045022100cd7f0a050a280cc9d0c78f3ba45d3f2a75cafd51893642dd3fb436af65002ebf02201aad7620326d30425b12f0f84225716f5d9087c73fe4675375823e039e274ce0:922c64590222798bb761d5b6d8e72950
+# digest: 4a0a0047304502205e950d15d1176207322c121a1a25727849c6ff865efff5bcc4d6b70b6e4aa581022100c7788d61d04fc0180acb9296ab1be384450ab75db3ca96bc7822601627b6b86f:922c64590222798bb761d5b6d8e72950
