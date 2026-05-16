@@ -2,7 +2,7 @@ info:
   id: jenkins-crumb-token
   name: Jenkins exposed servers
   author: twitter/noexceptcpp
-  severity: Low
+  severity: Info
   description: List of commons Jenkins Token or Crumb.
 
   classification:
@@ -14,8 +14,9 @@ info:
 
   references:
     - "https://www.jenkins.io/doc/book/security/csrf-protection/"
-    
-  matcher-condition: and
+
+  matcher-condition: or
+
   requests:
     method: GET
     path:

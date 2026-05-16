@@ -2,12 +2,13 @@ id: cookie-injection
 
 info:
   name: Parameter based cookie injection
-  author: pdteam
-  severity: info
+  author: reewardius
+  severity: medium
   reference:
-    - https://www.invicti.com/blog/web-security/understanding-cookie-poisoning-attacks/
-    - https://docs.imperva.com/bundle/on-premises-knowledgebase-reference-guide/page/cookie_injection.htm
-  tags: reflected,dast,cookie,injection
+    - https://book.hacktricks.xyz/pentesting-web/crlf-0d-0a
+    - https://github.com/r0075h3ll/Oralyzer/blob/master/core/crlf.py
+    - https://infosecwriteups.com/6000-with-microsoft-hall-of-fame-microsoft-firewall-bypass-crlf-to-xss-microsoft-bug-bounty-8f6615c47922
+  tags: fuzzing-crlf,fuzzing-req,dast
 
 variables:
   first: "cookie_injection"
@@ -23,7 +24,8 @@ http:
 
     fuzzing:
       - part: query
-        type: postfix
+        type: replace
+        mode: single
         fuzz:
           - "{{reflection}}"
 

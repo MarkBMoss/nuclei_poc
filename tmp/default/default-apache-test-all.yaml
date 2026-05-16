@@ -1,30 +1,36 @@
-id: default-apache-test-all
-
 info:
+  id: default-apache-test-all
   name: Apache HTTP Server Test Page
-  author: andydoering
-  severity: info
-  description: Detects default installations of apache (not just apache2 or installations on CentOS)
-  metadata:
-    shodan-query: http.title:"Apache+Default","Apache+HTTP+Server+Test","Apache2+It+works"
-  tags: tech,apache
-  mongoid: 0000
+  author: OpenAI
+  description:  Detects default installations of apache (not just apache2 or installations on CentOS)
+  severity: Info
+  classification:
+    country: any
+    tags:
+      - apache
+      - http-server
 
-requests:
-  - method: GET
+  matcher-condition: or
+
+  requests:
+    method: GET
     path:
-      - '{{BaseURL}}'
+      - "/"
+    description: Attempt to access the Apache HTTP Server Test Page
 
-    matchers:
-      - type: regex  # type of the extractor
-        part: body   # part of the response (header,body,all)
-        condition: or
-        regex:
-          - "<title>.*?Apache(|\\d+) .*?(Default|Test).*?</title>"
-          - "<title>(Default|Test).*? Apache(|\\d+).*?</title>"
+  matchers:
+    - pattern: "Apache HTTP Server Test Page"
+    - pattern: "<title>.*?Apache(|\\d+) .*?(Default|Test).*?</title>"
+    - pattern: "<title>(Default|Test).*? Apache(|\\d+).*?</title>"
+      type: body
+      description: Apache HTTP Server Test Page string found in the response body
 
-    extractors:
-      - type: kval
-        part: header
-        kval:
-          - server
+  whitelist:
+    domains:
+      - apache.org
+    type: domain
+    description: Ignore Apache Software Foundation website
+
+  response:
+    - status: 
+      - 200
