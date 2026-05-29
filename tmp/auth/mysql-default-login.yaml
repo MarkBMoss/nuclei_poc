@@ -6,6 +6,11 @@ info:
   severity: high
   description: |
     A MySQL service was accessed with easily guessed credentials.
+  metadata:
+    verified: true
+    max-request: 21
+    shodan-query: "port:3306"
+  tags: js,mysql,default-login,network,fuzz,enum
 
 javascript:
   - pre-condition: |

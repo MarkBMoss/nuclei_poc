@@ -1,28 +1,29 @@
-id: extract-github-links
+id: github
 
 info:
-  name: Github links extractor
-  author: cipher387
+  name: GitHub
+  author: dwisiswant0
+  description: This OSINT template looks for information about a user name.
   severity: info
-  description: Extract Github links from web page body
-  tags: juicy-info
-  
-http:
+  classification:
+    cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
+    cvss-score: 0.0
+    cwe-id: CWE-200
+  tags: osint,osint-coding,github
+
+self-contained: true
+requests:
   - method: GET
     path:
-      - "{{BaseURL}}"
+      - "https://github.com/{{user}}"
 
+    matchers-condition: and
     matchers:
-      - type: regex
-        part: body
-        regex:
-          - 'github.com/((.|\n)*?)(\s|\"|\]|\,)'
-          
-    extractors:
-      - type: regex
-        part: body
-        regex:
-          - 'github.com/((.|\n)*?)(\s|\"|\]|\,)'
+      - type: status
+        status:
+          - 200
 
-
-#url for test https://ipinfo.io/ips
+      - type: word
+        part: body
+        words:
+          - "p-nickname vcard-username d-block"

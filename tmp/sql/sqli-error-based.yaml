@@ -10,16 +10,13 @@ info:
     This is accomplished by the application taking user input and combining it with static parameters to build an SQL query .
   metadata:
     max-request: 3
-  tags: sqli,dast,full
-  
+  tags: sqli,error,dast
+
 http:
   - pre-condition:
       - type: dsl
         dsl:
           - 'method != "OPTIONS"'
-          - '!contains(path, ".js")'
-          - '!contains(path, ".json")'
-        condition: and
 
     payloads:
       injection:
@@ -118,8 +115,6 @@ http:
           - "Zend_Db_(Adapter|Statement)_Oracle_Exception"
           - "Pdo[./_\\\\](Oracle|OCI)"
           - "OracleException"
-          - "ORA-00933"
-          - "ORA-01756"
           # IBM DB2
           - "CLI Driver.*?DB2"
           - "DB2 SQL error"
@@ -229,6 +224,7 @@ http:
           - "SQ200: No table "
           - "Virtuoso S0002 Error"
           - "\\[(Virtuoso Driver|Virtuoso iODBC Driver)\\]\\[Virtuoso Server\\]"
+        condition: or
 
     extractors:
       - type: regex

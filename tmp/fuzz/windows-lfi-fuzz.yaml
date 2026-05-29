@@ -4,7 +4,9 @@ info:
   name: Local File Inclusion - Windows
   author: pussycat0x
   severity: high
-  tags: fuzzing-req,fuzzing-req-query,lfi,dast
+  metadata:
+    max-request: 39
+  tags: lfi,windows,dast
 
 http:
   - pre-condition:
