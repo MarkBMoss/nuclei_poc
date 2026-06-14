@@ -6,7 +6,7 @@ info:
   reference: https://www.exploit-db.com/ghdb/6999
   severity: low
   tags: wordpress,listing
-requests:
+http:
 - matchers:
   - type: word
     words:

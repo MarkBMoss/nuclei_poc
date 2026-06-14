@@ -8,7 +8,7 @@ info:
   reference: https://wpvulndb.com/vulnerabilities/10318
   # GDPR plugin may give a false positive so double check headers
 
-requests:
+http:
   - payloads:
       Subdomains: /home/mahmoud/Wordlist/AllSubdomains.txt
     attack: sniper
