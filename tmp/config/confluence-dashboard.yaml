@@ -1,32 +1,32 @@
-info:
-  id: confluence-dashboard
-  name: Confluence Dashboard - Detect
-  author: OpenAI
-  description: Template to detect the Confluence dashboard page
-  severity: Low
-  classification:
-    country: any
-    tags:
-      - confluence
-      - dashboard
-      - content management
-
-  matcher-condition: or
-
-  requests:
-      method: GET
-      path:
-        - "/"
-      description: Attempt to access the Confluence dashboard page
-
+http:
+- host-redirects: true
   matchers:
-    - pattern: "<title>Confluence Dashboard</title>"
-    - pattern: "Dashboard - Confluence"
-    - pattern: "Atlassian Confluence"
-      type: body
-      description: Confluence dashboard page detected in the response
-
-  response:
-    - status:
-        - 200
-      description: Successful response status
+  - condition: and
+    part: body
+    type: word
+    words:
+    - Dashboard - Confluence
+    - title="Spaces">
+    - Atlassian Confluence
+  - part: header
+    type: word
+    words:
+    - text/html
+  - status:
+    - 200
+    type: status
+  matchers-condition: and
+  max-redirects: 2
+  method: GET
+  path:
+  - '{{BaseURL}}'
+id: confluence-dashboard
+info:
+  author: tess
+  metadata:
+    max-request: 1
+    shodan-query: title:"Dashboard - Confluence"
+    verified: true
+  name: Confluence Dashboard Exposed
+  severity: critical
+  tags: misconfig,exposure,confluence,atlassian

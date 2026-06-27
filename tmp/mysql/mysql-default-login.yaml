@@ -1,52 +1,49 @@
 id: mysql-default-login
+
 info:
-  author: DhiyaneshDk,pussycat0x,ritikchaddha
-  description: 'A MySQL service was accessed with easily guessed credentials.
-
-    '
-  metadata:
-    max-request: 21
-    shodan-query: port:3306
-    verified: true
   name: MySQL - Default Login
+  author: DhiyaneshDk,pussycat0x,ritikchaddha
   severity: high
-  tags: js,mysql,default-login,network,fuzz
+  description: |
+    A MySQL service was accessed with easily guessed credentials.
+  metadata:
+    verified: true
+    max-request: 21
+    shodan-query: "port:3306"
+  tags: js,mysql,default-login,network,fuzz,enum,vuln
+
 javascript:
-- args:
-    Host: '{{Host}}'
-    Pass: '{{passwords}}'
-    Port: '3306'
-    User: '{{usernames}}'
-  attack: clusterbomb
-  code: 'var m = require("nuclei/mysql");
+  - pre-condition: |
+      isPortOpen(Host,Port);
+    code: |
+      var m = require("nuclei/mysql");
+      var c = m.MySQLClient();
+      c.Connect(Host,Port,User,Pass)
 
-    var c = m.MySQLClient();
+    args:
+      Host: "{{Host}}"
+      Port: "3306"
+      User: "{{usernames}}"
+      Pass: "{{passwords}}"
 
-    c.Connect(Host,Port,Username,Password)
+    payloads:
+      usernames:
+        - root
+        - admin
+        - mysql
+        - test
+      passwords:
+        - root
+        - admin
+        - mysql
+        - test
+        -
+    attack: clusterbomb
 
-    '
-  matchers:
-  - condition: and
-    dsl:
-    - response == true
-    - success == true
-    type: dsl
-  payloads:
-    passwords:
-    - root
-    - admin
-    - mysql
-    - test
-    - null
-    usernames:
-    - root
-    - admin
-    - mysql
-    - test
-  pre-condition: 'var m = require("nuclei/mysql");
-
-    var c = m.MySQLClient();
-
-    c.IsMySQL(Host, Port);
-
-    '
+    matchers:
+      - type: dsl
+        dsl:
+          - "response == true"
+          - "success == true"
+        condition: and
+# digest: 4a0a0047304502202e60c03105cba531fe84fd491ad25fc7cc97070adc3a43865bad78e1ba274f7d022100f26af1d4d6e117ac8cbe021961ba09bf1c3c29c18ee17d8e4d378d0ac634fd24:922c64590222798bb761d5b6d8e72950
