@@ -1,52 +1,57 @@
-http:
-- extractors:
-  - name: version
-    part: body
-    regex:
-    - ExpressionEngine ([0-9.]+)
-    - Powered by ExpressionEngine ([0-9.]+)
-    type: regex
-  - name: expressionengine_id
-    part: body
-    regex:
-    - expressionengine-site-id=([a-z0-9]+)
-    - expressionengine\.com/([^/]+)
-    type: regex
-  matchers:
-  - case-insensitive: true
-    condition: or
-    part: response
-    type: word
-    words:
-    - ExpressionEngine
-    - Powered by ExpressionEngine
-    - expressionengine.com
-    - X-Powered-By-ExpressionEngine
-  - status:
-    - 200
-    type: status
-  matchers-condition: and
-  method: GET
-  path:
-  - '{{BaseURL}}'
-  - '{{BaseURL}}/robots.txt'
-  - '{{BaseURL}}/sitemap.xml'
-  - '{{BaseURL}}/favicon.ico'
-  - '{{BaseURL}}/system/'
-  - '{{BaseURL}}/themes/'
-  - '{{BaseURL}}/index.php'
-  - '{{BaseURL}}/admin.php'
-  - '{{BaseURL}}/cp/'
-  stop-at-first-match: true
 id: expressionengine-detect
-info:
-  author: Chirag Mistry
-  description: 'An instance running ExpressionEngine is detected by looking for specific
-    HTTP headers, HTML tags, and known endpoints.
 
-    '
+info:
+  name: ExpressionEngine Detection
+  author: Chirag Mistry
+  severity: info
+  description: |
+    An instance running ExpressionEngine is detected by looking for specific HTTP headers, HTML tags, and known endpoints.
   metadata:
     max-request: 9
-  name: ExpressionEngine Detection
-  severity: info
   tags: expressionengine,detect,tech
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+      - "{{BaseURL}}/robots.txt"
+      - "{{BaseURL}}/sitemap.xml"
+      - "{{BaseURL}}/favicon.ico"
+      - "{{BaseURL}}/system/"
+      - "{{BaseURL}}/themes/"
+      - "{{BaseURL}}/index.php"
+      - "{{BaseURL}}/admin.php"
+      - "{{BaseURL}}/cp/"
+
+    stop-at-first-match: true
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: response
+        words:
+          - "ExpressionEngine"
+          - "Powered by ExpressionEngine"
+          - "expressionengine.com"
+          - "X-Powered-By-ExpressionEngine"
+        condition: or
+        case-insensitive: true
+
+      - type: status
+        status:
+          - 200
+
+    extractors:
+      - type: regex
+        part: body
+        name: version
+        regex:
+          - 'ExpressionEngine ([0-9.]+)'
+          - 'Powered by ExpressionEngine ([0-9.]+)'
+
+      - type: regex
+        part: body
+        name: expressionengine_id
+        regex:
+          - 'expressionengine-site-id=([a-z0-9]+)'
+          - 'expressionengine\.com/([^/]+)'
+# digest: 490a0046304402202ddbbc6c1f79dc2979c20c968d616bf52ceeb6adfdd05cebd92b596280b326e802207cb29a6fde44b7529d6e365cbb41c3debb02103ca99409c30de3f5eca75f7061:922c64590222798bb761d5b6d8e72950
