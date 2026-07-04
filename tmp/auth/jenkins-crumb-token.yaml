@@ -1,33 +1,22 @@
+http:
+- extractors:
+  - part: body
+    regex:
+    - (?i)jenkins.{0,10}(?:crumb)?.{0,10}\b([0-9a-f]{32,36})\b
+    type: regex
+  method: GET
+  path:
+  - '{{BaseURL}}'
+id: jenkins-crumb-token
 info:
-  id: jenkins-crumb-token
-  name: Jenkins exposed servers
-  author: twitter/noexceptcpp
-  severity: Low
-  description: List of commons Jenkins Token or Crumb.
-
-  classification:
-    tags:
-      - jenkins
-      - token
-      - crumb
-      - exposure
-
-  references:
-    - "https://www.jenkins.io/doc/book/security/csrf-protection/"
-    
-  matcher-condition: and
-  requests:
-    method: GET
-    path:
-      - "/"
-    description: Attempt to access the main page
-    condition: and
-
-  matchers:
-    - pattern: "(?i)jenkins.{0,10}(?:crumb)?.{0,10}\b([0-9a-f]{32,36})\b"
-      type: body
-      description: "Commons Jenkins Token or Crumb."
-      
-  response:
-    - status: 
-      - 200
+  author: DhiyaneshDK
+  metadata:
+    max-request: 1
+    verified: true
+  name: Jenkins Token or Crumb
+  reference:
+  - https://github.com/praetorian-inc/noseyparker/blob/main/data/default/rules/jenkins.yml
+  - https://www.jenkins.io/blog/2018/07/02/new-api-token-system/
+  - https://www.jenkins.io/doc/book/security/csrf-protection/
+  severity: info
+  tags: jenkins,crumb,token,exposure
