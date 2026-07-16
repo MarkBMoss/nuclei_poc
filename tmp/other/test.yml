@@ -1,41 +1,86 @@
-name: testssl.sh CI
-
+name: Test
 on:
   pull_request:
-    paths-ignore:
-      - 'utils/**'
-      - 'doc/**'
-      - 'bin/**'
-      - '**.md'
-      - '**.pem'
-      - '**.pdf'
-      - '**.html'
-      - 'LICENSE'
-      - 'Dockerfile'
-      - 'Dockerfile.git'
-
-permissions:
-  contents: read
-
+    paths:
+      - '**'
+      - '!/*.md'
+      - '!/docs/**'
+      - "!/LICENSE-*"
+  push:
+    tags:
+      - "v*"
+    paths:
+      - '**'
+      - '!/*.md'
+      - '!/docs/**'
+      - "!/LICENSE-*"
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
+  ci:
+    name: CI
+    needs: [ test,rustfmt,clippy ]
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: exit 0
+  test:
+    name: Test
+    if: github.actor != 'dependabot[bot]'
     strategy:
       matrix:
-        os: ['ubuntu-22.04']
-        perl: ['5.26']
-    name: Perl ${{ matrix.perl }} on ${{ matrix.os }}
+        os: [ "ubuntu-latest", "windows-latest", "macos-latest" ]
+        rust: [ "stable" ]
+    continue-on-error: ${{ matrix.rust != 'stable' }}
+    runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Set up perl
-        uses: shogo82148/actions-setup-perl@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
         with:
-          perl-version: ${{ matrix.perl }}
-      - run: perl -V
-      - name: Install deps
-        run: sudo apt install dnsutils jsonlint
-      - run: cpanm --notest Test::More
-      - run: cpanm --notest Data::Dumper
-      - run: cpanm --notest JSON
-      - run: cpanm --notest Text::Diff
-      - run: prove -v
+          toolchain: ${{ matrix.rust }}
+          profile: minimal
+          override: true
+      - uses: Swatinem/rust-cache@v1
+      - name: Build
+        run: cargo test --no-run --workspace --all-features --all
+      - name: Default features
+        run: cargo test --workspace
+  rustfmt:
+    name: rustfmt
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          # Not MSRV because its harder to jump between versions and people are
+          # more likely to have stable
+          toolchain: stable
+          profile: minimal
+          override: true
+          components: rustfmt
+      - uses: Swatinem/rust-cache@v1
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+  clippy:
+    name: clippy
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.58.1  # MSRV
+          profile: minimal
+          override: true
+          components: clippy
+      - uses: Swatinem/rust-cache@v1
+      - uses: actions-rs/clippy-check@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          args: --workspace --all-features --all-targets -- -D warnings --allow deprecated
