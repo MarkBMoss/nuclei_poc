@@ -1,4 +1,2 @@
-# These are supported funding model platforms
-
-#github: [ cn-kali-team ]
-custom: [ 'https://blog.kali-team.cn/donate' ]
+github: OWASP
+custom: "https://owasp.org/donate/?reponame=www-project-asvs-security-evaluation-templates-with-nuclei&title=OWASP+ASVS+Security+Evaluation+Templates+with+Nuclei"

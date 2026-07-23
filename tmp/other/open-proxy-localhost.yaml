@@ -1,4 +1,4 @@
-id: open-proxy-http-portscan
+id: open-proxy-localhost
 
 info:
   name: Open Proxy to Other Web Ports via Proxy's localhost Interface
@@ -16,9 +16,9 @@ info:
   remediation: Disable the proxy or restrict configuration to only allow access to approved hosts/ports.
   tags: exposure,config,proxy,misconfig,fuzz
   metadata:
-  mongoid: 0000
+    max-request: 6
 
-requests:
+http:
   - raw:
       - |+
         GET / HTTP/1.1
@@ -61,5 +61,3 @@ requests:
           - (!contains(body_1, "Welcome to Windows") && !contains(body_2, "Welcome to Windows")) && (contains(body_3, "Welcome to Windows") || contains(body_4, "Welcome to Windows") || contains(body_5, "Welcome to Windows") || contains(body_6, "Welcome to Windows"))
           - (!contains(body_1, "Welcome to Windows") && !contains(body_2, "Welcome to Windows")) && (contains(body_3, "Welcome to Windows") || contains(body_4, "Welcome to Windows") || contains(body_5, "Welcome to Windows") || contains(body_6, "Welcome to Windows"))
           - (!contains(body_1, "It works") && !contains(body_2, "It works")) && (contains(body_3, "It works") || contains(body_4, "It works") || contains(body_5, "It works") || contains(body_6, "It works"))
-
-# Enhanced by mp on 2022/04/21
