@@ -1,43 +1,30 @@
+id: apache-guacamole
+
 info:
-  id: apache-guacamole
-  name: Apache Guacamole
-  author: twitter/drfabiocastro
-  description: Template to detect Apache Guacamole instances.
-  severity: Info
-  classification:
-    country: any
-    tags:
-      - guacamole
-      - login
-      - apache
+  name: Apache Guacamole Login Page and version detection
+  author: r3dg33k
+  severity: info
+  tags: apache,guacamole,tech,login
+  metadata:
+  mongoid: 0000
 
-  matcher-condition: or
-
-  requests:
-    method: GET
+requests:
+  - method: GET
     path:
-      - "/guacamole/"
-      - "/translations/en.json"
-    description: Attempt to access Apache Guacamole login page
-    condition: or
+      - "{{BaseURL}}/translations/en.json"
 
-  matchers:
-    - pattern: "Apache Guacamole"
-      type: body
-      description: Apache Guacamole string found in the response body
-    - pattern: "guacamole.css"
-      type: body
-      description: Guacamole CSS file found in the response body
-    - pattern: "guacamole.js"
-      type: body
-      description: Guacamole JS file found in the response body
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - 'Apache Guacamole'
 
-  whitelist:
-    domains:
-      - guacamole.apache.org
-    type: domain
-    description: Ignore Apache Guacamole project website
+      - type: status
+        status:
+          - 200
 
-  response:
-    - status: 
-      - 200
+    extractors:
+      - type: regex
+        part: body
+        regex:
+          - '"VERSION":"[0-9]+\.2\.0"'
