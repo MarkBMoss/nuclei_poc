@@ -6,14 +6,15 @@ info:
   severity: medium
   description: |
     A CSV injection detection template to identify and prevent CSV injection vulnerabilities by using various payloads that could be interpreted as formulas by spreadsheet applications.
-  tags: csv,dast,full
+  tags: dast,csv,oast,vuln
 
 http:
   - pre-condition:
       - type: dsl
         dsl:
-          - 'method != "OPTIONS"'
-
+          - 'method == "GET"'
+          - 'method == "POST"'
+          - 'method == "PUT"'
     payloads:
       csv_fuzz:
         - "class.module.classLoader.resources.context.configFile=http://{{interactsh-url}}"
@@ -28,17 +29,25 @@ http:
         - '=IMAGE("https://{{interactsh-url}}/images/srpr/logo3w.png")'
 
     fuzzing:
-      - part: request
+      - parts:
+          - query
+          - body
         type: replace # replaces existing parameter value with fuzz payload
         mode: multiple # replaces all parameters value with fuzz payload
         fuzz:
           - '{{csv_fuzz}}'
 
-    stop-at-first-match: true
+    matchers-condition: and
     matchers:
-      - type: dsl
-        name: oob-interaction
-        dsl:
-          - 'contains(interactsh_protocol, "http") || contains(interactsh_protocol, "dns")'
-          - 'contains(header, "csv") || contains(header, "excel") || contains(header, "spreadsheet")'
-        condition: and
+      - type: word
+        part: interactsh_protocol # Confirms the HTTP Interaction
+        words:
+          - "http"
+
+      - type: word
+        part: header
+        words:
+          - "text/csv"
+          - "application/csv"
+          - "application/vnd.ms-excel"
+# digest: 4a0a00473045022047de9a9ade28a139a37de842b237ae72a42ccfed58a24a2166c1191da3ca847d022100a321d8f99e99bba547fcc6cdb6db36a15392eeceaf24cb7f7a4f72478899ded5:922c64590222798bb761d5b6d8e72950
