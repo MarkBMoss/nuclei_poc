@@ -1,40 +1,49 @@
+id: telegram-bot-token
+
 info:
-  id: telegram-bot-token
   name: Telegram Bot Token
-  author: twitter/drfabiocastro
-  description: Template to detect Telegram bot tokens in code repositories.
-  severity: Medium
-  classification:
-    country: any
-    tags:
-      - telegram
-      - token
-      - security
+  author: DhiyaneshDK
+  severity: high
+  reference:
+    - https://github.com/praetorian-inc/noseyparker/blob/main/crates/noseyparker/data/default/builtin/rules/telegram.yml
+    - https://core.telegram.org/bots/api
+    - https://core.telegram.org/bots/features#botfather
+  metadata:
+    verified: true
+    max-request: 2
+  tags: telegram,token,exposure,vuln
 
-  matcher-condition: or
+flow: http(1) && http(2)
 
-  requests:
-      method: "GET"
-      path: 
-        - "/"
-      description: Attempt to access the repository's main page
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
 
-  matchers:
-    - pattern: "^[0-9]+:[a-zA-Z0-9_-]{35}$"
-      type: body
-      description: Telegram bot token found in source code
-  
-  tlds:
-    - pattern: any
-      type: tld
-      description: Any top-level domain
-  
-  whitelist:
-    domains:
-      - telegram.org
-    type: domain
-    description: Example whitelist for Telegram.org
+    matchers:
+      - type: regex
+        part: body
+        name: token
+        regex:
+          - '\b(\d+:AA[a-zA-Z0-9_-]{32,33})'
+        internal: true
 
-  response:
-    - status: 
-      - 200
+  - raw:
+      - |
+        @Host: https://api.telegram.org:443
+        GET /bot{{token}}/getMe HTTP/1.1
+        Host: api.telegram.org
+
+    disable-path-automerge: true
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code == 200'
+          - 'contains(body, "is_bot") && contains(body, "can_join_groups")'
+        condition: and
+
+    extractors:
+      - type: dsl
+        dsl:
+          - token
+# digest: 4a0a00473045022076fb4ee56bdc7bfb65914764e614de6eea82003c712612490992f3295e3645ca022100bb7c142d1379445d591ef3682f064399258b374930d4eb965c3f2d81e8e280cd:922c64590222798bb761d5b6d8e72950

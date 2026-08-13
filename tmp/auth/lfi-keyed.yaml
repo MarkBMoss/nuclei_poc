@@ -1,12 +1,12 @@
 id: lfi-keyed
 
 info:
-  name: LFI Detection - Keyed
+  name: Key LFI Detection
   author: pwnhxl
-  severity: high
+  severity: unknown
   reference:
     - https://owasp.org/www-community/attacks/Unicode_Encoding
-  tags: fuzzing-req-query,lfi,dast
+  tags: dast,pathtraversal,lfi
 
 variables:
   fuzz: "../../../../../../../../../../../../../../../"
@@ -55,6 +55,36 @@ http:
     fuzzing:
       - part: query
         mode: single
+        keys:
+          - cat
+          - dir
+          - action
+          - board
+          - date
+          - detail
+          - file
+          - download
+          - path
+          - folder
+          - prefix
+          - include
+          - page
+          - inc
+          - locate
+          - show
+          - doc
+          - site
+          - type
+          - view
+          - content
+          - document
+          - layout
+          - mod
+          - conf
+          - url
+          - img
+          - image
+          - images
         fuzz:
           - "{{pathtraversal}}"
 
