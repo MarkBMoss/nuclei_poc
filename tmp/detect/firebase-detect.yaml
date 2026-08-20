@@ -1,31 +1,22 @@
+id: firebase-detect
+
 info:
-  id: firebase-detect
-  name: Firebase Template
+  name: firebase detect
   author: organiccrap
-  description: Template to detect Firebase projects.
-  severity: Low
-  classification:
-    country: any
-    tags:
-      - firebase
-      - hosting
+  severity: low
+  reference:
+    - http://ghostlulz.com/google-exposed-firebase-database/
+  tags: tech,firebase
+  metadata:
+  mongoid: 0000
 
-  matcher-condition: any
-
-  requests:
-    method: GET
+requests:
+  - method: GET
     path:
-      - "/"
-      - "/.settings/rules.json?auth=FIREBASE_SECRET"
-    description: Attempt to access the Firebase project page
-    condition: and
+      - "{{BaseURL}}/.settings/rules.json?auth=FIREBASE_SECRET"
 
-  matchers:
-    - pattern: "firebase-app.js"
-      type: body
-      description: Firebase app script found in the response body
-    - pattern: "Could not parse auth token"
-  response:
-    - status: 
-      - 200
-      description: Successful
+    matchers:
+      - type: word
+        words:
+          - "Could not parse auth token"
+        part: body
