@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository == 'projectdiscovery/nuclei-templates'
     steps:
-      - uses: actions/checkout@v7
-      - uses: projectdiscovery/nuclei-action@v3
-        with:
-          install-only: true
+      - uses: actions/checkout@v4
+      - uses: projectdiscovery/actions/setup/nuclei@v1
       - run: nuclei -lfa -duc -sign -ud $GITHUB_WORKSPACE -t .
         env:
           NUCLEI_USER_CERTIFICATE: ${{ secrets.NUCLEI_USER_CERTIFICATE }}
@@ -38,11 +36,18 @@ jobs:
     runs-on: windows-latest
     if: github.repository == 'projectdiscovery/nuclei-templates'
     steps:
-      - uses: actions/checkout@v7
-
-      - uses: projectdiscovery/nuclei-action@v3
+      - uses: actions/checkout@v4
+      
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          install-only: true
+          go-version: '1.21'
+          
+      - name: Install Nuclei
+        run: |
+          go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+          nuclei -version
+        shell: bash
           
       - name: Sign Windows Templates
         run: nuclei -lfa -duc -sign -ud "${{ github.workspace }}" -t "code/windows/audit"

@@ -5,41 +5,8 @@
 
 version: 2
 updates:
-
-  # Maintain dependencies for go modules
-  - package-ecosystem: "gomod"
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-    target-branch: "dev"
-    commit-message:
-      prefix: "chore"
-      include: "scope"
-    labels:
-      - "Type: Maintenance"
-    allow:
-      - dependency-name: "github.com/byt3n33dl3/*"
-
-#  # Maintain dependencies for GitHub Actions
-#  - package-ecosystem: "github-actions"
-#    directory: "/"
-#    schedule:
-#      interval: "weekly"
-#    target-branch: "dev"
-#    commit-message:
-#      prefix: "chore"
-#      include: "scope"
-#    labels:
-#      - "Type: Maintenance"
-#
-#  # Maintain dependencies for docker
-#  - package-ecosystem: "docker"
-#    directory: "/"
-#    schedule:
-#      interval: "weekly"
-#    target-branch: "dev"
-#    commit-message:
-#      prefix: "chore"
-#      include: "scope"
-#    labels:
-#      - "Type: Maintenance"
+      interval: "daily"

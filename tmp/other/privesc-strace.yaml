@@ -9,8 +9,8 @@ info:
   reference:
     - https://gtfobins.github.io/gtfobins/strace/
   metadata:
-    max-request: 3
     verified: true
+    max-request: 3
   tags: code,linux,strace,privesc,local
 
 self-contained: true
@@ -46,4 +46,4 @@ code:
           - 'contains(code_2_response, "root")'
           - 'contains(code_3_response, "root")'
         condition: or
-# digest: 4a0a004730450221008a56962d3e0bfec8153fae52f4693ee5b8065098d3b7c5e16b5c2f481dcaaeb8022077e7fc1be8079fde76cbf09b10718038a4e013725c9955a91d5b024d02bdd27f:922c64590222798bb761d5b6d8e72950
+# digest: 4b0a00483046022100b2f29c4110e6326a53b2a08ff54e03c735ea900b6119fd1496c8e226903e3f59022100c9f434d8ac041c8939c163fe7dcfc253d872aa86f7a38bda739bb672982df616:922c64590222798bb761d5b6d8e72950

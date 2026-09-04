@@ -9,8 +9,8 @@ info:
   reference:
     - https://gtfobins.github.io/gtfobins/xargs/
   metadata:
-    max-request: 3
     verified: true
+    max-request: 3
   tags: code,linux,xargs,privesc,local
 
 self-contained: true
@@ -46,4 +46,4 @@ code:
           - 'contains(code_2_response, "root")'
           - 'contains(code_3_response, "root")'
         condition: or
-# digest: 490a0046304402205fac35cdd5142e3afd382d38b77be0b7105cfc23884e7ac5cbba8aa91cfc2bb002202b6c7ebae29c5c300052a85a39f3e30b71788d590bc40b797c1ee96c1f00f267:922c64590222798bb761d5b6d8e72950
+# digest: 4a0a00473045022100c686fd9a60e663198f4932f6e1fefce20cd8ded887c8950e6d6a9d14f793af700220430c5ee15fb84c8ff50eac9f301942fbea0c85def62bb6762fda01bc5999da0a:922c64590222798bb761d5b6d8e72950

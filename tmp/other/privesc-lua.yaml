@@ -9,8 +9,8 @@ info:
   reference:
     - https://gtfobins.github.io/gtfobins/lua/
   metadata:
-    max-request: 3
     verified: true
+    max-request: 3
   tags: code,linux,lua,privesc,local
 
 self-contained: true
@@ -46,4 +46,4 @@ code:
           - 'contains(code_2_response, "root")'
           - 'contains(code_3_response, "root")'
         condition: or
-# digest: 4a0a00473045022033fd3387c3085b4f8e3a7ced68a4e324ba82f7e683a8c29e5ab32c1975a8fe4b02210097eb732caf95609123a361436265388bba8c2c95fcba6ddaf6504d3a5b19c19f:922c64590222798bb761d5b6d8e72950
+# digest: 490a00463044022068718653db39b936140228cfead61b3c7b0895e78857e03c997aa97ea3228702022004ce8817d7f5513e675645cde83c237e0f1d6de8348e012d0094a7865e584fd6:922c64590222798bb761d5b6d8e72950
