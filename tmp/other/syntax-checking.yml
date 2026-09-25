@@ -1,6 +1,9 @@
 name: ❄️ YAML Lint
 
-on:
+on: 
+  push:
+    paths:
+      - '**.yaml'
   pull_request:
     paths:
       - '**.yaml'
@@ -10,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v2
       - name: Yamllint
         uses: karancode/yamllint-github-action@v2.1.1
         with:
