@@ -1,24 +1,30 @@
+http:
+- matchers:
+  - condition: and
+    part: body
+    type: word
+    words:
+    - '"id"'
+    - '"description"'
+    - '"name"'
+  raw:
+  - 'GET https://api.lob.com/v1/addresses HTTP/1.1
+
+    Authorization: Basic {{base64(token + '':'')}}
+
+    Host: api.lob.com
+
+    '
 id: api-lob
 info:
-  name: Lob API Test
   author: daffainfo
-  severity: info
+  description: US Address Verification
+  metadata:
+    max-request: 1
+  name: Lob API Test
   reference:
-    - https://docs.lob.com/
-    - https://github.com/daffainfo/all-about-apikey/blob/main/Data%20Validation/Lob.md
+  - https://docs.lob.com/
+  - https://github.com/daffainfo/all-about-apikey/tree/main/lob
+  severity: info
   tags: token-spray,lob
 self-contained: true
-requests:
-  - raw:
-      - |
-        GET https://api.lob.com/v1/addresses HTTP/1.1
-        Authorization: Basic {{base64(token + ':')}}
-        Host: api.lob.com
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"id"'
-          - '"description"'
-          - '"name"'
-        condition: and

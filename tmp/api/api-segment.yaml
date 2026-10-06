@@ -1,23 +1,29 @@
+http:
+- matchers:
+  - condition: and
+    part: body
+    type: word
+    words:
+    - '"name":'
+    - '"id"'
+  raw:
+  - 'GET https://platform.segmentapis.com/v1beta/workspaces/myworkspace HTTP/1.1
+
+    Host: platform.segmentapis.com
+
+    Authorization: Bearer {{token}}
+
+    Content-Type: application/json
+
+    '
 id: api-segment
 info:
-  name: Segment API Test
   author: geeknik
-  severity: info
+  metadata:
+    max-request: 1
+  name: Segment API Test
   reference:
-    - https://reference.segmentapis.com/
+  - https://reference.segmentapis.com/
+  severity: info
   tags: token-spray,segment
 self-contained: true
-requests:
-  - raw:
-      - |
-        GET https://platform.segmentapis.com/v1beta/workspaces/myworkspace HTTP/1.1
-        Host: platform.segmentapis.com
-        Authorization: Bearer {{token}}
-        Content-Type: application/json
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"name":'
-          - '"id"'
-        condition: and

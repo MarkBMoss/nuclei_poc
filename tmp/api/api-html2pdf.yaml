@@ -1,20 +1,22 @@
+http:
+- matchers:
+  - part: body
+    type: word
+    words:
+    - '"Provided url is not accessible"'
+  method: GET
+  path:
+  - https://api.html2pdf.app/v1/generate?url=https://test.test&apiKey={{token}}
 id: api-html2pdf
 info:
-  name: Html2PDF API Test
   author: daffainfo
-  severity: info
   description: HTML/URL to PDF
+  metadata:
+    max-request: 1
+  name: Html2PDF API Test
   reference:
-    - https://html2pdf.app/documentation/
-    - https://github.com/daffainfo/all-about-apikey/tree/main/html2pdf
+  - https://html2pdf.app/documentation/
+  - https://github.com/daffainfo/all-about-apikey/tree/main/html2pdf
+  severity: info
   tags: token-spray,html2pdf
 self-contained: true
-requests:
-  - method: GET
-    path:
-      - "https://api.html2pdf.app/v1/generate?url=https://test.test&apiKey={{token}}"
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"Provided url is not accessible"'

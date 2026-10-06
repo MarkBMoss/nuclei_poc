@@ -1,23 +1,26 @@
+http:
+- matchers:
+  - condition: and
+    part: body
+    type: word
+    words:
+    - '"name":'
+    - '"domain":'
+    - '"year_founded":'
+  method: GET
+  path:
+  - https://companyenrichment.abstractapi.com/v1/?api_key={{token}}&domain=airbnb.com
 id: api-abstract-company-enrichment
 info:
-  name: Abstract Api Company Enrichment Test
   author: daffainfo
-  severity: info
-  description: Enrich any domain or email with accurate company data, including headcount, location and industry.
+  description: Enrich any domain or email with accurate company data, including headcount,
+    location and industry.
+  metadata:
+    max-request: 1
+  name: Abstract Api Company Enrichment Test
   reference:
-    - https://www.abstractapi.com/api/company-enrichment
-    - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-company-enrichment
+  - https://www.abstractapi.com/api/company-enrichment
+  - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-company-enrichment
+  severity: info
   tags: token-spray,abstractapi
 self-contained: true
-requests:
-  - method: GET
-    path:
-      - "https://companyenrichment.abstractapi.com/v1/?api_key={{token}}&domain=airbnb.com"
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"name":'
-          - '"domain":'
-          - '"year_founded":'
-        condition: and

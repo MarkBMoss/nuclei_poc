@@ -1,23 +1,26 @@
+http:
+- matchers:
+  - condition: and
+    part: body
+    type: word
+    words:
+    - '"email":'
+    - '"autocorrect":'
+    - '"is_valid_format":'
+  method: GET
+  path:
+  - https://emailvalidation.abstractapi.com/v1/?api_key={{token}}&email=johnsmith@gmail.com
 id: api-abstract-email-validation
 info:
-  name: Abstract Api Email Validation Test
   author: daffainfo
-  severity: info
-  description: Improve your delivery rate and clean your email lists with Abstract's industry-leading email verification API
+  description: Improve your delivery rate and clean your email lists with Abstract's
+    industry-leading email verification API
+  metadata:
+    max-request: 1
+  name: Abstract Api Email Validation Test
   reference:
-    - https://www.abstractapi.com/api/email-verification-validation-api
-    - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-email-validation
+  - https://www.abstractapi.com/api/email-verification-validation-api
+  - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-email-validation
+  severity: info
   tags: token-spray,abstractapi
 self-contained: true
-requests:
-  - method: GET
-    path:
-      - "https://emailvalidation.abstractapi.com/v1/?api_key={{token}}&email=johnsmith@gmail.com"
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"email":'
-          - '"autocorrect":'
-          - '"is_valid_format":'
-        condition: and

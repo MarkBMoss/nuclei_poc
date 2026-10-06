@@ -1,23 +1,26 @@
+http:
+- matchers:
+  - condition: and
+    part: body
+    type: word
+    words:
+    - '"requested_location":'
+    - '"longitude":'
+    - '"latitude":'
+  method: GET
+  path:
+  - https://timezone.abstractapi.com/v1/current_time/?api_key={{token}}&location=Oxford,%20United%20Kingdom
 id: api-abstract-timezone
 info:
-  name: Abstract Api Timezone Test
   author: daffainfo
-  severity: info
-  description: Quickly and easily get the time and date of a location or IP address, or convert the time and date of one timezone into another
+  description: Quickly and easily get the time and date of a location or IP address,
+    or convert the time and date of one timezone into another
+  metadata:
+    max-request: 1
+  name: Abstract Api Timezone Test
   reference:
-    - https://www.abstractapi.com/api/time-date-timezone-api
-    - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-timezone
+  - https://www.abstractapi.com/api/time-date-timezone-api
+  - https://github.com/daffainfo/all-about-apikey/tree/main/abstract-timezone
+  severity: info
   tags: token-spray,abstractapi
 self-contained: true
-requests:
-  - method: GET
-    path:
-      - "https://timezone.abstractapi.com/v1/current_time/?api_key={{token}}&location=Oxford,%20United%20Kingdom"
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"requested_location":'
-          - '"longitude":'
-          - '"latitude":'
-        condition: and
